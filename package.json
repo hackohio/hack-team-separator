@@ -1,0 +1,9 @@
+{
+  "name": "hack-team-separator",
+  "version": "1.0.0",
+  "description": "Generate PDF documents for judges containing which teams to judge, when, and where.",
+  "main": "index.js",
+  "repository": "git@github.com:hackohio/hack-team-separator.git",
+  "author": "hackohio",
+  "license": "MIT"
+}
