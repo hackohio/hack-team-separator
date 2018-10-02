@@ -5,5 +5,8 @@
   "main": "index.js",
   "repository": "git@github.com:hackohio/hack-team-separator.git",
   "author": "hackohio",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "pdfkit": "^0.8.3"
+  }
 }
