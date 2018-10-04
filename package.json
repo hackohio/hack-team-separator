@@ -5,10 +5,11 @@
   "author": "hackohio",
   "private": true,
   "dependencies": {
+    "pdfkit": "^0.8.3",
     "react": "^16.5.2",
+    "react-bulma-components": "2.1.0",
     "react-dom": "^16.5.2",
-    "react-scripts": "2.0.4",
-    "pdfkit": "^0.8.3"
+    "react-scripts": "2.0.4"
   },
   "scripts": {
     "start": "react-scripts start",
