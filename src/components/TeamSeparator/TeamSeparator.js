@@ -14,8 +14,8 @@ class TeamSeparator extends Component {
         super(props);
         this.state = {
             needsUpload: true,
-            numJudges: null,
-            statusColor: '',
+            numJudges: '',
+            statusColor: null,
         };
     }
 
@@ -40,7 +40,7 @@ class TeamSeparator extends Component {
 
     onChange = (evt) => {
         const numJudges = evt.target.value;
-        let statusColor = '';
+        let statusColor = null;
         if(numJudges){
             statusColor = !isNaN(numJudges) ? 'success' : 'danger';
         }
