@@ -117,7 +117,7 @@ class Separator extends Component {
 
     render() {
         const ProgressInfo = () => {
-            if(this.state.isSeperating){
+            if(this.state.isSeparating){
                 let currentInfo = 'Separating ' + this.state.current + '...';
                 return(
                     <div>
