@@ -4,7 +4,7 @@ import Container from 'react-bulma-components/lib/components/container';
 import Heading from 'react-bulma-components/lib/components/heading';
 import Section from 'react-bulma-components/lib/components/section';
 import Button from 'react-bulma-components/lib/components/button';
-import { Field, Control, Label, Input } from 'react-bulma-components/lib/components/form';
+import { Field, Control, Label, Input, Help } from 'react-bulma-components/lib/components/form';
 import Generator from './Generator';
 import ReactFileReader from 'react-file-reader';
 import csv from 'csvtojson';
@@ -66,6 +66,7 @@ class TeamSeparator extends Component {
                                 <Control>
                                     <Input color={this.state.statusColor} onChange={this.onChange} name="num_judges" type="text" placeholder="Number input" value={this.state.numJudges} />
                                 </Control>
+                                <Help disabled={this.state.statusColor!=='success'} color="danger">This is not a valid numeric value.</Help>
                             </Field>
                             <Field>
                                 <Label>Please select a CSV file containing student teams:</Label>
