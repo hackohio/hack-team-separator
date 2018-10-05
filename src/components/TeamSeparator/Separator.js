@@ -5,7 +5,7 @@ import Heading from 'react-bulma-components/lib/components/heading';
 import Section from 'react-bulma-components/lib/components/section';
 import Progress from 'react-bulma-components/lib/components/progress'
 
-class Generator extends Component {
+class Separator extends Component {
     constructor(props) {
         super(props);
 
@@ -19,7 +19,7 @@ class Generator extends Component {
         };
 
         this.state = {
-            isGenerating: true,
+            isSeparating: true,
             current: '',
             headers: headerMap,
             teams: this.props.teams,
@@ -27,7 +27,32 @@ class Generator extends Component {
             maxProgess: 100,
             progress: 0,
         };
+    }
+
+    componentDidMount() {
         this.startSeparator();
+        this.showProgress();
+    }
+
+    showProgress = () => {
+        const percent = this.state.progress + 1;
+        if(percent > 100 && this.state.judgePairs){
+            clearTimeout(this.tm);
+            this.setState({
+                isSeparating: false,
+            });
+            return;
+        }else if(percent > 100){
+            this.setState({
+                progress: 0,
+            }, () => {
+                this.showProgress();
+            });
+        }
+        this.setState({ 
+            progress: percent,
+        });
+        this.tm = setTimeout(this.showProgress, 20);
     }
 
     startSeparator = () => {
@@ -85,12 +110,15 @@ class Generator extends Component {
             }
             currJudgePair++;
         }
+        this.setState({
+            judgePairs: judgePairs,
+        });
     }
 
     render() {
         const ProgressInfo = () => {
-            if(this.state.isGenerating){
-                let currentInfo = 'Generating ' + this.state.current + '...';
+            if(this.state.isSeperating){
+                let currentInfo = 'Separating ' + this.state.current + '...';
                 return(
                     <div>
                         <Heading subtitle size={3}>{ currentInfo }</Heading>
@@ -113,5 +141,5 @@ class Generator extends Component {
     }
 }
 
-export default Generator;
+export default Separator;
 

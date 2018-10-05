@@ -5,7 +5,7 @@ import Heading from 'react-bulma-components/lib/components/heading';
 import Section from 'react-bulma-components/lib/components/section';
 import Button from 'react-bulma-components/lib/components/button';
 import { Field, Control, Label, Input, Help } from 'react-bulma-components/lib/components/form';
-import Generator from './Generator';
+import Separator from './Separator';
 import ReactFileReader from 'react-file-reader';
 import csv from 'csvtojson';
 
@@ -82,8 +82,8 @@ class TeamSeparator extends Component {
             );
         }
         return(
-            <div name="GeneratorSection">
-                <Generator teams={this.state.teams} numJudges={this.state.numJudges} />
+            <div name="SeparatorSection">
+                <Separator teams={this.state.teams} numJudges={this.state.numJudges} />
             </div>
         );
     }
