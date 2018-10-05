@@ -10,7 +10,7 @@ class Generator extends Component {
         super(props);
 
         //Header mapping (temporarily here)
-        let header_map = {
+        let headerMap = {
             "team_name": "Team Name",
             "member_names": "Member Names",
             "member_emails": "Member Emails",
@@ -21,8 +21,9 @@ class Generator extends Component {
         this.state = {
             isGenerating: true,
             current: '',
-            headers: header_map,
+            headers: headerMap,
             teams: this.props.teams,
+            numJudges: this.props.numJudges,
             progress: 0,
         };
         console.log(this.state.teams);

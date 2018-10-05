@@ -15,6 +15,7 @@ class TeamSeparator extends Component {
         this.state = {
             needsUpload: true,
             numJudges: null,
+            statusColor: '',
         };
     }
 
@@ -38,48 +39,55 @@ class TeamSeparator extends Component {
     }
 
     onChange = (evt) => {
-        const value = evt.target.value;
-        this.setState({
-            numJudges: value,
-        });
+        const numJudges = evt.target.value;
+        let statusColor = '';
+        if(numJudges){
+            statusColor = !isNaN(numJudges) ? 'success' : 'danger';
+        }
+        if(statusColor !== this.state.statusColor)
+            this.setState({
+                statusColor: statusColor,
+                numJudges: numJudges,
+            });
+        else
+            this.setState({ 
+                numJudges: numJudges,
+            });
     }
 
-    render() {
-        const DynamicSection = () => {
-            if(this.state.needsUpload) {
-                let statusColor = '';
-                if(this.state.numJudges)
-                    statusColor = !isNaN(this.state.numJudges) ? 'success' : 'danger';
-                
-                return(
-                    <div name="UploadSection">
-                        <Section>
-                            <Container>
-                                <Field>
-                                    <Label>Number of judge-pairs:</Label>
-                                    <Control>
-                                        <Input color={statusColor} onChange={this.onChange} name="num_judges" type="text" placeholder="Number of judge-pairs" value={this.state.numJudges} />
-                                    </Control>
-                                </Field>
-                                <Field>
-                                    <Label>Please select a CSV file containing student teams:</Label>
-                                    <Control> 
-                                        <ReactFileReader handleFiles={this.handleFiles} fileTypes={'.csv'}>
-                                            <Button disabled={!statusColor}>Upload</Button>
-                                        </ReactFileReader>
-                                    </Control>
-                                </Field>
-                            </Container>
-                        </Section>
-                    </div>
-                );
-            }
+    DynamicSection = () => {
+        if(this.state.needsUpload) {
             return(
-                <div name="GeneratorSection">
-                    <Generator teams={this.state.teams} />
+                <div name="UploadSection">
+                    <Section>
+                        <Container>
+                            <Field>
+                                <Label>Number of judge-pairs:</Label>
+                                <Control>
+                                    <Input color={this.state.statusColor} onChange={this.onChange} name="num_judges" type="text" placeholder="Number input" value={this.state.numJudges} />
+                                </Control>
+                            </Field>
+                            <Field>
+                                <Label>Please select a CSV file containing student teams:</Label>
+                                <Control> 
+                                    <ReactFileReader handleFiles={this.handleFiles} fileTypes={'.csv'}>
+                                        <Button disabled={this.state.statusColor!=='success'}>Upload</Button>
+                                    </ReactFileReader>
+                                </Control>
+                            </Field>
+                        </Container>
+                    </Section>
                 </div>
             );
         }
+        return(
+            <div name="GeneratorSection">
+                <Generator teams={this.state.teams} numJudges={this.state.numJudges} />
+            </div>
+        );
+    }
+
+    render() {
 
         return (
             <div>
@@ -89,7 +97,7 @@ class TeamSeparator extends Component {
                         <Heading subtitle size={5}>Generate PDFs for judging pairs.</Heading>
                     </Container>
                 </Section>
-                <DynamicSection />
+                {this.DynamicSection()}
             </div>
         );
     }
