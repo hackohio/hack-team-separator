@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import 'react-bulma-components/src/index.sass';
 import Navbar from 'react-bulma-components/lib/components/navbar';
-import hacklogo from './img/hackohiologo.png';
+import hacklogo from '../img/hackohiologo.png';
+import TeamSeparator from './TeamSeparator/TeamSeparator.js';
 
 class App extends Component {
   render() {
@@ -27,6 +28,7 @@ class App extends Component {
                 </Navbar.Container>
             </Navbar.Menu>
         </Navbar>
+        <TeamSeparator />
       </div>
     );
   }
