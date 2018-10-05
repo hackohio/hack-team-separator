@@ -4,7 +4,7 @@ import Container from 'react-bulma-components/lib/components/container';
 import Heading from 'react-bulma-components/lib/components/heading';
 import Section from 'react-bulma-components/lib/components/section';
 import Button from 'react-bulma-components/lib/components/button';
-import { Field, Control, Label } from 'react-bulma-components/lib/components/form';
+import { Field, Control, Label, Input } from 'react-bulma-components/lib/components/form';
 import Generator from './Generator';
 import ReactFileReader from 'react-file-reader';
 import csv from 'csvtojson';
@@ -14,6 +14,7 @@ class TeamSeparator extends Component {
         super(props);
         this.state = {
             needsUpload: true,
+            numJudges: null,
         };
     }
 
@@ -36,19 +37,35 @@ class TeamSeparator extends Component {
         });
     }
 
-    render() {
+    onChange = (evt) => {
+        const value = evt.target.value;
+        this.setState({
+            numJudges: value,
+        });
+    }
 
+    render() {
         const DynamicSection = () => {
             if(this.state.needsUpload) {
+                let statusColor = '';
+                if(this.state.numJudges)
+                    statusColor = !isNaN(this.state.numJudges) ? 'success' : 'danger';
+                
                 return(
                     <div name="UploadSection">
                         <Section>
                             <Container>
                                 <Field>
-                                    <Label>Please upload a CSV file containing student teams:</Label>
+                                    <Label>Number of judge-pairs:</Label>
+                                    <Control>
+                                        <Input color={statusColor} onChange={this.onChange} name="num_judges" type="text" placeholder="Number of judge-pairs" value={this.state.numJudges} />
+                                    </Control>
+                                </Field>
+                                <Field>
+                                    <Label>Please select a CSV file containing student teams:</Label>
                                     <Control> 
                                         <ReactFileReader handleFiles={this.handleFiles} fileTypes={'.csv'}>
-                                            <Button>Upload</Button>
+                                            <Button disabled={!statusColor}>Upload</Button>
                                         </ReactFileReader>
                                     </Control>
                                 </Field>
