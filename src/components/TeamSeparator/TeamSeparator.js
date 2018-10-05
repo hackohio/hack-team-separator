@@ -66,7 +66,7 @@ class TeamSeparator extends Component {
                                 <Control>
                                     <Input color={this.state.statusColor} onChange={this.onChange} name="num_judges" type="text" placeholder="Number input" value={this.state.numJudges} />
                                 </Control>
-                                <Help disabled={this.state.statusColor!=='success'} color="danger">This is not a valid numeric value.</Help>
+                                <Help disabled={this.state.statusColor!=='danger'} color="danger">This is not a valid numeric value.</Help>
                             </Field>
                             <Field>
                                 <Label>Please select a CSV file containing student teams:</Label>
