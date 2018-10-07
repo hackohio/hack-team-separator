@@ -4,6 +4,7 @@ import Container from 'react-bulma-components/lib/components/container';
 import Heading from 'react-bulma-components/lib/components/heading';
 import Section from 'react-bulma-components/lib/components/section';
 import Progress from 'react-bulma-components/lib/components/progress'
+import Generator from './Generator';
 
 class Separator extends Component {
     constructor(props) {
@@ -116,8 +117,9 @@ class Separator extends Component {
     }
 
     render() {
-        const ProgressInfo = () => {
+        const CurrentState = () => {
             if(this.state.isSeparating){
+                //Progress Info
                 let currentInfo = 'Separating ' + this.state.current + '...';
                 return(
                     <div>
@@ -126,14 +128,19 @@ class Separator extends Component {
                     </div>
                 );
             }
-            return null;
+            //Start Generation
+            return(
+                <div>
+                    <Generator judgePairs={this.state.judgePairs} />
+                </div>
+            );
         }
 
         return (
             <div>
                 <Section>
                     <Container>
-                        <ProgressInfo />
+                        <CurrentState />
                     </Container>
                 </Section>
             </div>
