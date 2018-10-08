@@ -9,20 +9,9 @@ import Generator from './Generator';
 class Separator extends Component {
     constructor(props) {
         super(props);
-
-        //Header mapping (temporarily here)
-        let headerMap = {
-            "team_name": "Team Name",
-            "member_names": "Member Names",
-            "member_emails": "Member Emails",
-            "proj_goal": "Project Goal",
-            "proj_func": "Functionality",
-        };
-
         this.state = {
             isSeparating: true,
             current: '',
-            headers: headerMap,
             teams: this.props.teams,
             numJudges: this.props.numJudges,
             maxProgess: 100,
