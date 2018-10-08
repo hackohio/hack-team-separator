@@ -24,7 +24,7 @@ class App extends Component {
                     <Navbar.Item href="#">Team Separator</Navbar.Item>
                 </Navbar.Container>
                 <Navbar.Container position="end">
-                    <Navbar.Item>Alpha Testing</Navbar.Item>
+                    <Navbar.Item href="http://hack.osu.edu">Main Site</Navbar.Item>
                 </Navbar.Container>
             </Navbar.Menu>
         </Navbar>
