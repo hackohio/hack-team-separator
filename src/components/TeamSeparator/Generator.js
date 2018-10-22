@@ -11,34 +11,48 @@ class Generator extends Component {
         super(props);
         const styles = StyleSheet.create({
             page: {
-                flexDirection: 'row',
+                padding: 10,
                 backgroundColor: '#ffffff'
             },
-            headerContainer: {
-                borderBottomWidth: 1,
+            header: {
+                flexDirection: 'row',
+                borderBottomWidth: 2,
                 borderBottomColor: '#bb0000',
                 borderBottomStyle: 'solid',
                 alignItems: 'stretch',
             },
-            header: {
-                margin: 10,
-                padding: 10,
-                flexGrow: 3,
+            headerColumn: {
+                flexDirection: 'column',
+                flexGrow: 9,
+            },
+            headerTitleColumn: {
+                flexDirection: 'column',
+                flexGrow: 2,
+                alignSelf: 'flex-end',
+                justifySelf: 'flex-end',
             },
             headerText: {
                 marginTop: 20,
             },
-            logoSection: {
-                margin: 10,
-                padding: 10,
-                flexGrow: 1,
-            },
             logo: {
-                width: '30%',
+                width: '20%',
                 padding: 10,
                 alignSelf: 'flex-start',
                 justifySelf: 'flex-start',
-            }
+            },
+            teamContainer: {
+                padding: 10,
+                flexGrow: 3,
+            },
+            teamTitle: {
+                fontSize: 20,
+            },
+            teamInfo: {
+                fontSize: 10,
+            },
+            teamView: {
+                padding: 20,
+            },
         });
 
         //Header mapping (can be implemented dynamically)
@@ -46,9 +60,23 @@ class Generator extends Component {
             "team_name": "Team Name",
             "member_names": "Member Names",
             "member_emails": "Member Emails",
-            "proj_goal": "Project Goal",
-            "proj_func": "Functionality",
+            "proj_name": "Project Goal",
+            "proj_desc": "Functionality",
+            "team_loc": "Location",
         };
+        
+
+        //Real HEADERMAP
+        /*const headerMap = {
+            "team_name": "Q3",
+            "member_names": "Q4",
+            "member_emails": "Q19",
+            "proj_name": "Q31",
+            "proj_desc": "Q13",
+            "team_loc": "Q8",
+            "team_pos": "Q29",
+        };
+        */
         const infoHeader = "Separated and generated for " + this.props.judgePairs.length + " judge-pairs:";
 
         this.state = {
@@ -67,19 +95,30 @@ class Generator extends Component {
 
         const JudgePage = (props) => (
             <Page size="A4" style={this.state.styles.page}>
-                <View style={this.state.styles.headerContainer}>
-                    <View style={this.state.styles.logoSection}>
-                        <Image
-                            style={this.state.styles.logo}
-                            src={hacklogo}
-                        />
-                        {props.teams.map(function(team, index){
-                            return <Text>{team["Team Name"]}</Text>;
-                        })}
+                <View style={this.state.styles.header}>
+                    <View style={this.state.styles.headerColumn}>
+                    <Image
+                        style={this.state.styles.logo}
+                        src={hacklogo}
+                    />
+                    </View>
+                    <View style={this.state.styles.headerTitleColumn}>
+                        <Text style={this.state.styles.headerText}>Judge-pair {props.judgePair.id}   HackOhio {(new Date().getFullYear())}</Text> 
                     </View>
                 </View>
-                <View style={this.state.styles.header}>
-                     <Text style={this.state.styles.headerText}>HackOhio {(new Date().getFullYear())}</Text> 
+                <View style={this.state.styles.teamContainer}>
+                    {props.teams.map(function(team, index){
+                        return (
+                            <View style={this.state.styles.teamView}>
+                                <Text style={this.state.styles.teamName}>{team[props.headerMap.team_name]}</Text>
+                                <Text style={this.state.styles.teamInfo}>Members: {team[props.headerMap.member_names]}</Text>
+                                <Text style={this.state.styles.teamInfo}>Emails: {team[props.headerMap.member_emails]}</Text>
+                                <Text style={this.state.styles.teamInfo}>Project Name: {team[props.headerMap.proj_name]}</Text>
+                                <Text style={this.state.styles.teamInfo}>Project Desc: {team[props.headerMap.proj_desc]}</Text>
+                                <Text style={this.state.styles.teamInfo}>Location: {team[props.headerMap.team_loc]}</Text>
+                            </View>
+                        );
+                    }.bind(this))}
                 </View>
             </Page>
         );
@@ -87,8 +126,8 @@ class Generator extends Component {
         const GeneratedPDFs = (
             <Document>
                 {this.state.judgePairs.map(function(judgePair, index){
-                    return <JudgePage teams={judgePair.teams} />
-                })}
+                    return <JudgePage judgePair={judgePair} teams={judgePair.teams} headerMap={this.state.headerMap} />
+                }.bind(this))}
             </Document>
         );
 

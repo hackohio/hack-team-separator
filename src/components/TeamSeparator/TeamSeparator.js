@@ -32,6 +32,9 @@ class TeamSeparator extends Component {
     }
 
     saveData = (jsonObject) => {
+        /* Splice when dealing with actual data to remove second row of headers */
+        //jsonObject.splice(0, 1);
+        
         this.setState({
             needsUpload: false,
             teams: jsonObject,
