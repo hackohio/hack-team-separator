@@ -6,6 +6,7 @@
   "author": "Tony Duco",
   "license": "MIT",
   "dependencies": {
+    "pureimage": "^0.1.6",
     "uuid": "^3.3.2"
   }
 }

@@ -29,7 +29,6 @@ class TeamSeparator extends Component {
             });
         }.bind(this);
         reader.readAsText(files[0]);
-        console.log(files[0]);
     }
 
     saveData = (jsonObject) => {

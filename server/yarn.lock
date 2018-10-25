@@ -2,7 +2,26 @@
 # yarn lockfile v1
 
 
+jpeg-js@^0.3.3:
+  version "0.3.4"
+  resolved "https://registry.yarnpkg.com/jpeg-js/-/jpeg-js-0.3.4.tgz#dc2ba501ee3d58b7bb893c5d1fab47294917e7e7"
+
+opentype.js@^0.4.3:
+  version "0.4.11"
+  resolved "http://registry.npmjs.org/opentype.js/-/opentype.js-0.4.11.tgz#281a2390639cc15931c955d8d63c14a7c7772b41"
+
+pngjs@^3.3.1:
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/pngjs/-/pngjs-3.3.3.tgz#85173703bde3edac8998757b96e5821d0966a21b"
+
+pureimage@^0.1.6:
+  version "0.1.6"
+  resolved "https://registry.yarnpkg.com/pureimage/-/pureimage-0.1.6.tgz#32b4de248e1ed660bddf744523375b6fa7be3821"
+  dependencies:
+    jpeg-js "^0.3.3"
+    opentype.js "^0.4.3"
+    pngjs "^3.3.1"
+
 uuid@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
-  integrity sha512-yXJmeNaw3DnnKAOKJE51sL/ZaYfWJRl1pK9dr19YFCu0ObS231AB1/LbqTKRAQ5kw8A90rA6fr4riOUpTZvQZA==

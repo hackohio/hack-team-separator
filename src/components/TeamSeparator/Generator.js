@@ -93,20 +93,84 @@ class Generator extends Component {
         let judgePairs = this.state.judgePairs;
         let promises = [];
         for(let i=0; i<judgePairs.length; i++){
-            let colorIndex=0;
-            let ballroom = [];
             let greathall = [];
-
-            for(let j=0; j<judgePairs.teams.length; j++){
-                let color = colorpallete[0];
-                judgePairs.teams[j].color = color;
-                let pos = judgePairs.teams[j][this.state.headerMap.team_pos];
-                //let loc = judgePairs.teams[j]
-
+            let ballroom = [];
+            let senate = [];
+            for(let j=0; j<judgePairs[i].teams.length; j++){
+                let color = colorpallete[j];
+                judgePairs[i].teams[j].color = color;
+                let loc = judgePairs[i].teams[j][this.state.headerMap.team_loc];
+                let pos = judgePairs[i].teams[j][this.state.headerMap.team_pos];
+                switch(loc){
+                    case 'Great Hall (1st floor)':
+                        greathall.push({ color: color, pos: pos });
+                        break;
+                    case 'Grand Ballroom (2nd floor)':
+                        ballroom.push({ color: color, pos: pos });
+                        break;
+                    case 'Senate Chamber (2nd floor)':
+                        senate.push({ color: color, pos: pos });
+                        break;
+                    default:
+                        break;
+                }
             }
+            let greathallQuery = '?r=gh';
+            greathall.forEach((obj) => {
+                greathallQuery += '&colors[]=' + obj.color + '&locs[]=' + obj.pos;
+            });
+            let ballroomQuery = '?r=br';
+            ballroom.forEach((obj) => {
+                ballroomQuery += '&colors[]=' + obj.color + '&locs[]=' + obj.pos;
+            });
+            let senateQuery = '?r=s';
+            senate.forEach((obj) => {
+                senateQuery += '&colors[]=' + obj.color + '&locs[]=' + obj.pos;
+            });
+            console.log(greathallQuery);
+            console.log(ballroomQuery);
+            console.log(senateQuery);
+
+            if(greathall.length > 0){
+                console.log('run gh');
+                let greathallFetch = fetch('/api/greathall' + greathallQuery)
+                    .then(response => response.blob())
+                    .then(images => {
+                        let imgUrl = URL.createObjectURL(images);
+                        console.log(imgUrl);
+                        judgePairs[i].images.push(imgUrl);
+                    });
+                promises.push(greathallFetch);
+            }
+            if(ballroom.length > 0){
+                console.log('run br');
+                let ballroomFetch = fetch('/api/ballroom' + ballroomQuery)
+                    .then(response => response.blob())
+                    .then(images => {
+                        let imgUrl = URL.createObjectURL(images);
+                        console.log(imgUrl);
+                        judgePairs[i].images.push(imgUrl);
+                    });
+                promises.push(ballroomFetch);
+            }
+            if(senate.length > 0){
+                console.log('run sn');
+                let senateFetch = fetch('/api/senate' + senateQuery)
+                    .then(response => response.blob())
+                    .then(images => {
+                        let imgUrl = URL.createObjectURL(images);
+                        console.log(imgUrl);
+                        judgePairs[i].images.push(imgUrl);
+                    });
+                promises.push(senateFetch);
+            }
+
         }
         Promise.all(promises).then(function(values){
-            this.setState
+            this.setState({
+                judgePairs: judgePairs,
+                isLoading: false,
+            });
         });
 
     }
