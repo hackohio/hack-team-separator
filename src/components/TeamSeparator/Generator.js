@@ -86,6 +86,7 @@ class Generator extends Component {
             infoHeader: infoHeader,
             headerMap: headerMap,
             loading: true,
+            fetchingImages: true,
         };
     }
 
@@ -127,52 +128,52 @@ class Generator extends Component {
             senate.forEach((obj) => {
                 senateQuery += '&colors[]=' + obj.color + '&locs[]=' + obj.pos;
             });
-            console.log(greathallQuery);
-            console.log(ballroomQuery);
-            console.log(senateQuery);
 
-            if(greathall.length > 0){
-                console.log('run gh');
-                let greathallFetch = fetch('/api/greathall' + greathallQuery)
-                    .then(response => response.blob())
-                    .then(images => {
-                        let imgUrl = URL.createObjectURL(images);
-                        console.log(imgUrl);
-                        judgePairs[i].images.push(imgUrl);
-                    });
-                promises.push(greathallFetch);
-            }
-            if(ballroom.length > 0){
-                console.log('run br');
-                let ballroomFetch = fetch('/api/ballroom' + ballroomQuery)
-                    .then(response => response.blob())
-                    .then(images => {
-                        let imgUrl = URL.createObjectURL(images);
-                        console.log(imgUrl);
-                        judgePairs[i].images.push(imgUrl);
-                    });
-                promises.push(ballroomFetch);
-            }
-            if(senate.length > 0){
-                console.log('run sn');
-                let senateFetch = fetch('/api/senate' + senateQuery)
-                    .then(response => response.blob())
-                    .then(images => {
-                        let imgUrl = URL.createObjectURL(images);
-                        console.log(imgUrl);
-                        judgePairs[i].images.push(imgUrl);
-                    });
-                promises.push(senateFetch);
-            }
+            this.getAllImages(greathallQuery, ballroomQuery, senateQuery)
+                .then(([gh, br, sn]) => {
+                    console.log(gh);
+                    console.log(br);
+                    console.log(sn);
+                });
 
         }
-        Promise.all(promises).then(function(values){
-            this.setState({
-                judgePairs: judgePairs,
-                isLoading: false,
-            });
-        });
+    }
 
+    getGreathall = (query) => {
+        console.log('gh');
+        console.log(query);
+        return fetch('/api/greathall' + query)
+            .then(response => response.blob())
+    }
+
+    getBallroom = (query) => {
+        console.log('br');
+        console.log(query);
+        return fetch('/api/ballroom' + query)
+            .then(response => response.blob())
+    }
+
+    getSenate = (query) => {
+        console.log('sn');
+        console.log(query);
+        return fetch('/api/senate' + query)
+            .then(response => response.blob())
+    }
+
+    getAllImages = (gh, br, sn) => {
+        return Promise.all([this.getGreathall(gh), this.getBallroom(br), this.getSenate(sn)])
+    }
+
+    updatePairsAndLoad = (judgePairs) => {
+        this.setState({
+            judgePairs: judgePairs,
+            fetchingImages: false,
+        });
+        console.log('Made it');
+        console.log(judgePairs);
+        judgePairs.forEach((judgePair) => {
+            console.log(judgePair.images);
+        });
     }
 
     reloadPage = () => {
