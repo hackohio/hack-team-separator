@@ -29,11 +29,12 @@ class TeamSeparator extends Component {
             });
         }.bind(this);
         reader.readAsText(files[0]);
+        console.log(files[0]);
     }
 
     saveData = (jsonObject) => {
         /* Splice when dealing with actual data to remove second row of headers */
-        //jsonObject.splice(0, 1);
+        jsonObject.splice(0, 2);
         
         this.setState({
             needsUpload: false,

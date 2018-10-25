@@ -4,6 +4,7 @@
   "repository": "git@github.com:hackohio/hack-team-separator.git",
   "author": "hackohio",
   "private": true,
+  "proxy": "http://localhost:5000",
   "dependencies": {
     "@babel/core": "7.1.0",
     "@react-pdf/renderer": "^1.0.0-alpha.18",

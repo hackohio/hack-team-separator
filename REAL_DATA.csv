@@ -1,4 +1,38 @@
 StartDate,EndDate,Status,IPAddress,Progress,Duration (in seconds),Finished,RecordedDate,ResponseId,RecipientLastName,RecipientFirstName,RecipientEmail,ExternalReference,LocationLatitude,LocationLongitude,DistributionChannel,UserLanguage,Q3,Q4,Q19,Q6,Q31,Q13,Q22,Q21,Q8,Q29
 Start Date,End Date,Response Type,IP Address,Progress,Duration (in seconds),Finished,Recorded Date,Response ID,Recipient Last Name,Recipient First Name,Recipient Email,External Data Reference,Location Latitude,Location Longitude,Distribution Channel,User Language,Team Name,List the name of each team member.,List the e-mail of each team member.,How many members of your team are new to hackathons (i.e. have not participated in previous hackathon events at any university)?,Project/Product Name,Please describe the goal of your project and general implementation details. Minimum Characters: 150 (~30 words),Does your project use any hardware components?,"Please select a sponsor challenge, if applicable.",Room location of your team:,"Select table position number. (i.e. 231, 053)"
 "{""ImportId"":""startDate"",""timeZone"":""America/Denver""}","{""ImportId"":""endDate"",""timeZone"":""America/Denver""}","{""ImportId"":""status""}","{""ImportId"":""ipAddress""}","{""ImportId"":""progress""}","{""ImportId"":""duration""}","{""ImportId"":""finished""}","{""ImportId"":""recordedDate"",""timeZone"":""America/Denver""}","{""ImportId"":""_recordId""}","{""ImportId"":""recipientLastName""}","{""ImportId"":""recipientFirstName""}","{""ImportId"":""recipientEmail""}","{""ImportId"":""externalDataReference""}","{""ImportId"":""locationLatitude""}","{""ImportId"":""locationLongitude""}","{""ImportId"":""distributionChannel""}","{""ImportId"":""userLanguage""}","{""ImportId"":""QID3_TEXT""}","{""ImportId"":""QID4_TEXT""}","{""ImportId"":""QID19_TEXT""}","{""ImportId"":""QID6""}","{""ImportId"":""QID31_TEXT""}","{""ImportId"":""QID13_TEXT""}","{""ImportId"":""QID22""}","{""ImportId"":""QID21""}","{""ImportId"":""QID8""}","{""ImportId"":""QID29_TEXT""}"
-2018-10-10 09:32:38,2018-10-10 09:33:37,Survey Preview,,100,58,True,2018-10-10 09:33:37,R_28zFuFZAABxK7RU,,,,,39.9951934814453125,-83.00469970703125,preview,EN,d,d,d,4,,ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss,Yes,,Grand Ballroom (2nd floor),012
+2018-10-10 09:32:38,2018-10-10 09:33:37,Survey Preview,,100,58,True,2018-10-10 09:33:37,R_28zFuFZAABxK7RU,,,,,39.9951934814453,-83.0046997070312,preview,EN,Team1,"Test Test
+Test2 Test2
+Test3 Test3
+Test4 Test4","email1@asdf.com
+asdf@asdfdsa.com
+adfdsa@casdf.com
+asdf@com.com",as,Test Product XYZ,Our goal is to make aefsdfadsfasd easier with asdfasdfasd through asdfasdf.com,Yes,,Grand Ballroom (2nd floor),301
+2018-10-10 09:32:38,2018-10-10 09:33:37,Survey Preview,,100,58,True,2018-10-10 09:33:37,R_28zFuFZAABxK7RU,,,,,39.9951934814453,-83.0046997070312,preview,EN,Team2,"Test Test
+Test2 Test2
+Test3 Test3
+Test4 Test4","email1@asdf.com
+asdf@asdfdsa.com
+adfdsa@casdf.com
+asdf@com.com",as,Test Product XYZ,Our goal is to make aefsdfadsfasd easier with asdfasdfasd through asdfasdf.com,Yes,,Grand Ballroom (2nd floor),221
+2018-10-10 09:32:38,2018-10-10 09:33:37,Survey Preview,,100,58,True,2018-10-10 09:33:37,R_28zFuFZAABxK7RU,,,,,39.9951934814453,-83.0046997070312,preview,EN,Team3,"Test Test
+Test2 Test2
+Test3 Test3
+Test4 Test4","email1@asdf.com
+asdf@asdfdsa.com
+adfdsa@casdf.com
+asdf@com.com",as,Test Product XYZ,Our goal is to make aefsdfadsfasd easier with asdfasdfasd through asdfasdf.com,Yes,,Grand Ballroom (2nd floor),000
+2018-10-10 09:32:38,2018-10-10 09:33:37,Survey Preview,,100,58,True,2018-10-10 09:33:37,R_28zFuFZAABxK7RU,,,,,39.9951934814453,-83.0046997070312,preview,EN,Team4,"Test Test
+Test2 Test2
+Test3 Test3
+Test4 Test4","email1@asdf.com
+asdf@asdfdsa.com
+adfdsa@casdf.com
+asdf@com.com",as,Test Product XYZ,Our goal is to make aefsdfadsfasd easier with asdfasdfasd through asdfasdf.com,Yes,,Great Hall (1st floor),101
+2018-10-10 09:32:38,2018-10-10 09:33:37,Survey Preview,,100,58,True,2018-10-10 09:33:37,R_28zFuFZAABxK7RU,,,,,39.9951934814453,-83.0046997070312,preview,EN,Team5,"Test Test
+Test2 Test2
+Test3 Test3
+Test4 Test4","email1@asdf.com
+asdf@asdfdsa.com
+adfdsa@casdf.com
+asdf@com.com",as,Test Product XYZ,Our goal is to make aefsdfadsfasd easier with asdfasdfasd through asdfasdf.com,Yes,,Senate Chamber (2nd floor),221

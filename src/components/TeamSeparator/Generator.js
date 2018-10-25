@@ -5,6 +5,7 @@ import Button from 'react-bulma-components/lib/components/button';
 import Heading from 'react-bulma-components/lib/components/heading';
 import { BlobProvider, Document, Page, Text, Image, View, StyleSheet } from '@react-pdf/renderer';
 import hacklogo from '../../img/hackohiologo.png';
+import colorpallete from '../../colorpallete.json';
 
 class Generator extends Component {
     constructor(props) {
@@ -56,18 +57,18 @@ class Generator extends Component {
         });
 
         //Header mapping (can be implemented dynamically)
-        const headerMap = {
+        /*const headerMap = {
             "team_name": "Team Name",
             "member_names": "Member Names",
             "member_emails": "Member Emails",
             "proj_name": "Project Goal",
             "proj_desc": "Functionality",
             "team_loc": "Location",
-        };
+        };*/
         
 
         //Real HEADERMAP
-        /*const headerMap = {
+        const headerMap = {
             "team_name": "Q3",
             "member_names": "Q4",
             "member_emails": "Q19",
@@ -76,7 +77,7 @@ class Generator extends Component {
             "team_loc": "Q8",
             "team_pos": "Q29",
         };
-        */
+        
         const infoHeader = "Separated and generated for " + this.props.judgePairs.length + " judge-pairs:";
 
         this.state = {
@@ -84,7 +85,30 @@ class Generator extends Component {
             judgePairs: this.props.judgePairs,
             infoHeader: infoHeader,
             headerMap: headerMap,
+            loading: true,
         };
+    }
+
+    componentDidMount(){
+        let judgePairs = this.state.judgePairs;
+        let promises = [];
+        for(let i=0; i<judgePairs.length; i++){
+            let colorIndex=0;
+            let ballroom = [];
+            let greathall = [];
+
+            for(let j=0; j<judgePairs.teams.length; j++){
+                let color = colorpallete[0];
+                judgePairs.teams[j].color = color;
+                let pos = judgePairs.teams[j][this.state.headerMap.team_pos];
+                //let loc = judgePairs.teams[j]
+
+            }
+        }
+        Promise.all(promises).then(function(values){
+            this.setState
+        });
+
     }
 
     reloadPage = () => {
@@ -116,6 +140,7 @@ class Generator extends Component {
                                 <Text style={this.state.styles.teamInfo}>Project Name: {team[props.headerMap.proj_name]}</Text>
                                 <Text style={this.state.styles.teamInfo}>Project Desc: {team[props.headerMap.proj_desc]}</Text>
                                 <Text style={this.state.styles.teamInfo}>Location: {team[props.headerMap.team_loc]}</Text>
+                                <Text style={this.state.styles.teamInfo}>Identifier: {team[props.headerMap.team_pos]}</Text>
                             </View>
                         );
                     }.bind(this))}
@@ -136,7 +161,7 @@ class Generator extends Component {
                 <BlobProvider document={GeneratedPDFs}>
                     {({ blob, url, loading, error }) => (
                         loading ? 
-                            <Heading subtitle size={4}>Generating...</Heading> 
+                            <Heading subtitle size={4}>Generating PDFs...</Heading> 
                             :
                             <div>
                                 <Field>
@@ -158,11 +183,20 @@ class Generator extends Component {
             </div>
         );
 
-        return (
-            <div>
-                <DownloadContainer />
-            </div>
-        );
+        if(this.state.fetchingImages){
+            return (
+                <div>
+                    <Heading subtitle size={4}>Generating custom images...</Heading>
+                </div>
+            );
+        }else{
+            return (
+                <div>
+                    <DownloadContainer />
+                </div>
+            );
+        }
+
     }
 
 }

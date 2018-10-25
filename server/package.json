@@ -1,0 +1,11 @@
+{
+  "name": "hack-team-separator-server",
+  "version": "1.0.0",
+  "description": "Back-end for hack-team-separator",
+  "main": "server.js",
+  "author": "Tony Duco",
+  "license": "MIT",
+  "dependencies": {
+    "uuid": "^3.3.2"
+  }
+}
