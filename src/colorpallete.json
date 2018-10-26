@@ -1,1 +1,39 @@
-["rgba(226, 52, 0, 1)","rgba(242, 161, 0, 1)","rgba(106, 198, 0, 1)","rgba(0, 116, 188, 1)","rgba(0, 183, 174, 1)","rgba(52, 0, 150, 1)","rgba(89, 0, 28, 1)","rgba(255, 0, 238, 1)","rgba(185, 226, 0, 1)","rgba(255,255,255,1)"]
+[
+    {
+        "word": "red",
+        "hex": "#ff0000"
+    },
+    {
+        "word": "blue",
+        "hex": "#0000ff"
+    },
+    {
+        "word": "green",
+        "hex": "#008000"
+    },
+    {
+        "word": "lime",
+        "hex": "#00ff00"
+    },
+    {
+        "word": "yellow",
+        "hex": "#ffff00"
+    },
+    {
+        "word": "aqua",
+        "hex": "#00ffff"
+    },
+    {
+        "word": "orange",
+        "hex": "#ffa500"
+    },
+    {
+        "word": "purple",
+        "hex": "#800080"
+    },
+    {
+        "word": "fuchsia",
+        "hex": "#ff00ff"
+    }
+]
+

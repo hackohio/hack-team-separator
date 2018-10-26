@@ -68,41 +68,57 @@ class Separator extends Component {
             judgePairs.push(newJudgePair);
         }
         let currJudgePair = 0;
+        console.log('starting loop');
         while(teamWrappers.length > 0){
             //Adjust/reset judgePair index
-            if(currJudgePair >= judgePairs.length)
+            if(currJudgePair >= judgePairs.length){
                 currJudgePair = 0;
+                console.log('setting zero');
+                
+            }
             if(judgePairs[currJudgePair].teams.length >= maxPerJudge){
                 currJudgePair++;
+                console.log('inc');
                 continue;
             }
             let currTeamWrapper = teamWrappers.pop();
+            console.log("Team " + currTeamWrapper.team.teamID);
+            console.log("timeUsed: " + currTeamWrapper.timeUsed);
+            console.log("currJudge: " + currJudgePair);
             //Already has team
             if(judgePairs[currJudgePair].teams.filter(
                 function(e) {
                     return e.teamID === currTeamWrapper.team.teamID;
                 }).length > 0)
             {
-                teamWrappers.unshift(currTeamWrapper);
+                console.log('Already in: ' + currTeamWrapper.team.teamID + ":" + currJudgePair);
+                teamWrappers.push(currTeamWrapper);
+                currJudgePair++;
                 continue;
-            }else if(currTeamWrapper.timeUsed && judgePairs[currJudgePair].teams.length !== currTeamWrapper.timeUsed) {
+            }else if(currTeamWrapper.timeUsed && (judgePairs[currJudgePair].teams.length+1) !== currTeamWrapper.timeUsed) {
                 //Add team to judgePair
                 judgePairs[currJudgePair].teams.push(currTeamWrapper.team);
+                console.log('Scheduled ' + currTeamWrapper.team.teamID + ' to ' + currJudgePair);
             }else if(currTeamWrapper.timeUsed){
                 //Conflict... Do not schedule and re-enqueue
+                console.log('conflict: ' + currTeamWrapper.team.teamID + ":" + currJudgePair);
                 teamWrappers.unshift(currTeamWrapper);
                 continue;
             }else{
                 //Add team's first time
+                console.log('Scheduled first time ' + currTeamWrapper.team.teamID + ' to ' + currJudgePair);
                 judgePairs[currJudgePair].teams.push(currTeamWrapper.team);
                 currTeamWrapper.timeUsed = judgePairs[currJudgePair].teams.length;
                 teamWrappers.unshift(currTeamWrapper);
             }
             currJudgePair++;
+            console.log('inc2');
         }
+        console.log('ended loop');
         this.setState({
             judgePairs: judgePairs,
         });
+        console.log(judgePairs);
     }
 
     render() {

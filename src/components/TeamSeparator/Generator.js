@@ -6,6 +6,7 @@ import Heading from 'react-bulma-components/lib/components/heading';
 import { BlobProvider, Document, Page, Text, Image, View, StyleSheet } from '@react-pdf/renderer';
 import hacklogo from '../../img/hackohiologo.png';
 import colorpallete from '../../colorpallete.json';
+import hexToRgba from 'hex-rgba';
 
 class Generator extends Component {
     constructor(props) {
@@ -34,25 +35,73 @@ class Generator extends Component {
             },
             headerText: {
                 marginTop: 20,
+                fontSize: 15,
             },
             logo: {
-                width: '20%',
-                padding: 10,
+                width: '10%',
+                padding: 5,
                 alignSelf: 'flex-start',
                 justifySelf: 'flex-start',
             },
             teamContainer: {
                 padding: 10,
-                flexGrow: 3,
             },
             teamTitle: {
-                fontSize: 20,
+                flexGrow: 9,
+                fontSize: 15,
             },
             teamInfo: {
-                fontSize: 10,
+                fontSize: 8,
             },
-            teamView: {
-                padding: 20,
+            teamColHead: {
+                display: 'flex',
+                flexGrow: 1,
+                flexDirection: 'column',
+                flexBasis: '25%',
+                padding: 10,
+            },
+            teamCol: {
+                display: 'flex',
+                flexGrow: 1,
+                flexDirection: 'column',
+                flexBasis: '28.5%',
+                padding: 10,
+            },
+            teamRow: {
+                display: 'flex',
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                width: '100%',
+            },
+            mapSenate: {
+                width: '65%',
+            },
+            mapGreatroom: {
+                width: '65%',
+            },
+            mapBallroom: {
+                width: '50%',
+                alignSelf: 'flex-center',
+                justifySelf: 'flex-center',
+            },
+            mapCol: {
+                display: 'flex',
+                flexGrow: 1,
+                flexDirection: 'column',
+                flexBasis: '50%',
+                padding: 10,
+            },
+            mapRow: {
+                display: 'flex',
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                width: '100%',
+            },
+            teamLoc: {
+                fontSize: 10,
+                textAlign: 'center',
+                margin: 'auto',
+                width: '80%',
             },
         });
 
@@ -88,9 +137,10 @@ class Generator extends Component {
             loading: true,
             fetchingImages: true,
         };
+        this.fetchImages();
     }
 
-    componentDidMount(){
+    fetchImages = () => {
         let judgePairs = this.state.judgePairs;
         let promises = [];
         for(let i=0; i<judgePairs.length; i++){
@@ -104,13 +154,16 @@ class Generator extends Component {
                 let pos = judgePairs[i].teams[j][this.state.headerMap.team_pos];
                 switch(loc){
                     case 'Great Hall (1st floor)':
-                        greathall.push({ color: color, pos: pos });
+                        greathall.push({ color: hexToRgba(color.hex, 100), pos: pos });
+                        judgePairs[i].teams[j].loc_ltr = 'G';
                         break;
                     case 'Grand Ballroom (2nd floor)':
-                        ballroom.push({ color: color, pos: pos });
+                        ballroom.push({ color: hexToRgba(color.hex, 100), pos: pos });
+                        judgePairs[i].teams[j].loc_ltr = 'B';
                         break;
                     case 'Senate Chamber (2nd floor)':
-                        senate.push({ color: color, pos: pos });
+                        senate.push({ color: hexToRgba(color.hex, 100), pos: pos });
+                        judgePairs[i].teams[j].loc_ltr = 'S';
                         break;
                     default:
                         break;
@@ -128,52 +181,43 @@ class Generator extends Component {
             senate.forEach((obj) => {
                 senateQuery += '&colors[]=' + obj.color + '&locs[]=' + obj.pos;
             });
+            console.log(greathallQuery);
+            console.log(ballroomQuery);
+            console.log(senateQuery);
 
-            this.getAllImages(greathallQuery, ballroomQuery, senateQuery)
+            promises.push(this.getAllImages(greathallQuery, ballroomQuery, senateQuery)
                 .then(([gh, br, sn]) => {
-                    console.log(gh);
-                    console.log(br);
-                    console.log(sn);
-                });
-
+                    judgePairs[i].greathall = URL.createObjectURL(gh);
+                    judgePairs[i].ballroom = URL.createObjectURL(br);
+                    judgePairs[i].senate = URL.createObjectURL(sn);
+                })
+            );
         }
+        Promise.all(promises).then((vals) => {
+            this.setState({
+                judgePairs: judgePairs,
+                fetchingImages: false,
+            });
+        });
     }
 
     getGreathall = (query) => {
-        console.log('gh');
-        console.log(query);
         return fetch('/api/greathall' + query)
             .then(response => response.blob())
     }
 
     getBallroom = (query) => {
-        console.log('br');
-        console.log(query);
         return fetch('/api/ballroom' + query)
             .then(response => response.blob())
     }
 
     getSenate = (query) => {
-        console.log('sn');
-        console.log(query);
         return fetch('/api/senate' + query)
             .then(response => response.blob())
     }
 
     getAllImages = (gh, br, sn) => {
         return Promise.all([this.getGreathall(gh), this.getBallroom(br), this.getSenate(sn)])
-    }
-
-    updatePairsAndLoad = (judgePairs) => {
-        this.setState({
-            judgePairs: judgePairs,
-            fetchingImages: false,
-        });
-        console.log('Made it');
-        console.log(judgePairs);
-        judgePairs.forEach((judgePair) => {
-            console.log(judgePair.images);
-        });
     }
 
     reloadPage = () => {
@@ -197,18 +241,54 @@ class Generator extends Component {
                 </View>
                 <View style={this.state.styles.teamContainer}>
                     {props.teams.map(function(team, index){
+                        const colorStyle = StyleSheet.create({
+                            teamColor: {
+                                borderColor: team.color.word,
+                                borderStyle: 'solid',
+                                borderWidth: '10',
+                                display: 'flex',
+                                flexGrow: 1,
+                                flexDirection: 'column',
+                                flexBasis: '10%',
+                                margin: 20,
+                            },
+                        });
                         return (
-                            <View style={this.state.styles.teamView}>
-                                <Text style={this.state.styles.teamName}>{team[props.headerMap.team_name]}</Text>
-                                <Text style={this.state.styles.teamInfo}>Members: {team[props.headerMap.member_names]}</Text>
-                                <Text style={this.state.styles.teamInfo}>Emails: {team[props.headerMap.member_emails]}</Text>
-                                <Text style={this.state.styles.teamInfo}>Project Name: {team[props.headerMap.proj_name]}</Text>
-                                <Text style={this.state.styles.teamInfo}>Project Desc: {team[props.headerMap.proj_desc]}</Text>
-                                <Text style={this.state.styles.teamInfo}>Location: {team[props.headerMap.team_loc]}</Text>
-                                <Text style={this.state.styles.teamInfo}>Identifier: {team[props.headerMap.team_pos]}</Text>
+                            <View style={this.state.styles.teamRow}>
+                                <View style={this.state.styles.teamColHead}>
+                                    <Text style={this.state.styles.teamName}>{team[props.headerMap.team_name]}</Text>
+                                    <Text style={this.state.styles.teamInfo}>Members:{"\n"}{team[props.headerMap.member_names]}</Text>
+                                </View>
+                                <View style={this.state.styles.teamCol}>
+                                    <Text style={this.state.styles.teamInfo}>Project Name: {team[props.headerMap.proj_name]}</Text>
+                                    <Text style={this.state.styles.teamInfo}>Project Desc: {team[props.headerMap.proj_desc]}</Text>
+                                    <Text style={this.state.styles.teamInfo}>Location: {team[props.headerMap.team_loc]}</Text>
+                                    <Text style={this.state.styles.teamInfo}>Identifier: {team[props.headerMap.team_pos]}</Text>
+                                </View>
+                                <View style={this.state.styles.teamCol}>
+                                    <Text style={this.state.styles.teamInfo}>Emails:{"\n"}{team[props.headerMap.member_emails]}</Text>
+                                </View>
+                                <View style={colorStyle.teamColor}>
+                                    <Text style={this.state.styles.teamLoc}>{team.loc_ltr}{team[props.headerMap.team_pos]}</Text>
+                                </View>
                             </View>
                         );
                     }.bind(this))}
+                </View>
+                <View style={this.state.styles.mapRow}>
+                    <View style={this.state.styles.mapCol}>
+                        <Image
+                            style={this.state.styles.mapGreatroom}
+                            src={props.judgePair.greathall} />
+                    </View>
+                    <View style={this.state.styles.mapCol}>
+                        <Image
+                            style={this.state.styles.mapSenate}
+                            src={props.judgePair.senate} />
+                    </View>
+                    <Image
+                        style={this.state.styles.mapBallroom}
+                        src={props.judgePair.ballroom} />
                 </View>
             </Page>
         );

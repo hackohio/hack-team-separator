@@ -19,15 +19,17 @@ app.get('/api/ballroom', (req, res) => {
         );
         let queries = req.query.locs;
         let colors = req.query.colors;
-        for(let i=0; i<queries.length; i++){
-            let query = queries[i];
-            let circleContext = editedImg.getContext('2d');
-            circleContext.fillStyle = colors[i];
-            circleContext.beginPath();
-            let x = parseInt(UnionBallroomMap[query].x);
-            let y = parseInt(UnionBallroomMap[query].y);
-            circleContext.arc(x, y, 15, 0, Math.PI*2, true);
-            circleContext.closePath(); circleContext.fill();
+        if(queries){
+            for(let i=0; i<queries.length; i++){
+                let query = queries[i];
+                let circleContext = editedImg.getContext('2d');
+                circleContext.fillStyle = colors[i];
+                circleContext.beginPath();
+                let x = parseInt(UnionBallroomMap[query].x);
+                let y = parseInt(UnionBallroomMap[query].y);
+                circleContext.arc(x, y, 15, 0, Math.PI*2, true);
+                circleContext.closePath(); circleContext.fill();
+            }
         }
         var outpath = "./tmp/" + uuidv1() + ".png";
         var options = {
@@ -40,7 +42,7 @@ app.get('/api/ballroom', (req, res) => {
 });
 
 app.get('/api/greathall', (req, res) => {
-    PImage.decodePNGFromStream(fs.createReadStream("./img/UnionGreathallLayout.png")).then((img) => {
+    PImage.decodePNGFromStream(fs.createReadStream("./img/UnionGreathallLayout2.png")).then((img) => {
         let editedImg = PImage.make(img.width, img.height);
         let context = editedImg.getContext('2d');
         context.drawImage(img,
@@ -49,16 +51,18 @@ app.get('/api/greathall', (req, res) => {
         );
         let queries = req.query.locs;
         let colors = req.query.colors;
-        for(let i=0; i<queries.length; i++){
-            let query = queries[i];
-            let circleContext = editedImg.getContext('2d');
-            circleContext.fillStyle = colors[i];
-            circleContext.beginPath();
-            let x = parseInt(UnionGreathallMap[query].x);
-            let y = parseInt(UnionGreathallMap[query].y);
-            circleContext.arc(x, y, 15, 0, Math.PI*2, true);
-            circleContext.closePath();
-            circleContext.fill();
+        if(queries){
+            for(let i=0; i<queries.length; i++){
+                let query = queries[i];
+                let circleContext = editedImg.getContext('2d');
+                circleContext.fillStyle = colors[i];
+                circleContext.beginPath();
+                let x = parseInt(UnionGreathallMap[query].x);
+                let y = parseInt(UnionGreathallMap[query].y);
+                circleContext.arc(x, y, 15, 0, Math.PI*2, true);
+                circleContext.closePath();
+                circleContext.fill();
+            }
         }
         var outpath = "./tmp/" + uuidv1() + ".png";
         var options = {
@@ -80,16 +84,18 @@ app.get('/api/senate', (req, res) => {
         );
         let queries = req.query.locs;
         let colors = req.query.colors;
-        for(let i=0; i<queries.length; i++){
-            let query = queries[i];
-            let circleContext = editedImg.getContext('2d');
-            circleContext.fillStyle = colors[i];
-            circleContext.beginPath();
-            let x = parseInt(UnionSenateMap[query].X);
-            let y = parseInt(UnionSenateMap[query].Y);
-            circleContext.arc(x, y, 15, 0, Math.PI*2, true);
-            circleContext.closePath();
-            circleContext.fill();
+        if(queries){
+            for(let i=0; i<queries.length; i++){
+                let query = queries[i];
+                let circleContext = editedImg.getContext('2d');
+                circleContext.fillStyle = colors[i];
+                circleContext.beginPath();
+                let x = parseInt(UnionSenateMap[query].X);
+                let y = parseInt(UnionSenateMap[query].Y);
+                circleContext.arc(x, y, 15, 0, Math.PI*2, true);
+                circleContext.closePath();
+                circleContext.fill();
+            }
         }
         var outpath = "./tmp/" + uuidv1() + ".png";
         var options = {
