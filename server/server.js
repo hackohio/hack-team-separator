@@ -10,6 +10,7 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 app.get('/api/ballroom', (req, res) => {
+    console.log('Started');
     PImage.decodePNGFromStream(fs.createReadStream("./img/UnionBallroomLayout.png")).then((img) => {
         let editedImg = PImage.make(img.width, img.height);
         let context = editedImg.getContext('2d');
@@ -22,13 +23,17 @@ app.get('/api/ballroom', (req, res) => {
         if(queries){
             for(let i=0; i<queries.length; i++){
                 let query = queries[i];
-                let circleContext = editedImg.getContext('2d');
-                circleContext.fillStyle = colors[i];
-                circleContext.beginPath();
-                let x = parseInt(UnionBallroomMap[query].x);
-                let y = parseInt(UnionBallroomMap[query].y);
-                circleContext.arc(x, y, 15, 0, Math.PI*2, true);
-                circleContext.closePath(); circleContext.fill();
+                if(UnionBallroomMap[query]){
+                    let circleContext = editedImg.getContext('2d');
+                    circleContext.fillStyle = '#' + colors[i];
+                    circleContext.beginPath();
+                    let x = parseInt(UnionBallroomMap[query].x);
+                    let y = parseInt(UnionBallroomMap[query].y);
+                    circleContext.arc(x, y, 15, 0, Math.PI*2, true);
+                    circleContext.closePath(); circleContext.fill();
+                }else{
+                    //console.log('BR DNE');
+                }
             }
         }
         var outpath = "./tmp/" + uuidv1() + ".png";
@@ -39,9 +44,11 @@ app.get('/api/ballroom', (req, res) => {
             res.sendFile(outpath, options);
         });
     });
+    console.log('Done');
 });
 
 app.get('/api/greathall', (req, res) => {
+    console.log('Started');
     PImage.decodePNGFromStream(fs.createReadStream("./img/UnionGreathallLayout2.png")).then((img) => {
         let editedImg = PImage.make(img.width, img.height);
         let context = editedImg.getContext('2d');
@@ -54,14 +61,18 @@ app.get('/api/greathall', (req, res) => {
         if(queries){
             for(let i=0; i<queries.length; i++){
                 let query = queries[i];
-                let circleContext = editedImg.getContext('2d');
-                circleContext.fillStyle = colors[i];
-                circleContext.beginPath();
-                let x = parseInt(UnionGreathallMap[query].x);
-                let y = parseInt(UnionGreathallMap[query].y);
-                circleContext.arc(x, y, 15, 0, Math.PI*2, true);
-                circleContext.closePath();
-                circleContext.fill();
+                if(UnionGreathallMap[query]){
+                    let circleContext = editedImg.getContext('2d');
+                    circleContext.fillStyle = '#' + colors[i];
+                    circleContext.beginPath();
+                    let x = parseInt(UnionGreathallMap[query].x);
+                    let y = parseInt(UnionGreathallMap[query].y);
+                    circleContext.arc(x, y, 15, 0, Math.PI*2, true);
+                    circleContext.closePath();
+                    circleContext.fill();
+                }else{
+                    //console.log('GH DNE');
+                }
             }
         }
         var outpath = "./tmp/" + uuidv1() + ".png";
@@ -72,9 +83,11 @@ app.get('/api/greathall', (req, res) => {
             res.sendFile(outpath, options);
         });
     });
+    console.log('Done');
 });
 
 app.get('/api/senate', (req, res) => {
+    console.log('Started');
     PImage.decodePNGFromStream(fs.createReadStream("./img/UnionSenateLayout.png")).then((img) => {
         let editedImg = PImage.make(img.width, img.height);
         let context = editedImg.getContext('2d');
@@ -87,14 +100,21 @@ app.get('/api/senate', (req, res) => {
         if(queries){
             for(let i=0; i<queries.length; i++){
                 let query = queries[i];
-                let circleContext = editedImg.getContext('2d');
-                circleContext.fillStyle = colors[i];
-                circleContext.beginPath();
-                let x = parseInt(UnionSenateMap[query].X);
-                let y = parseInt(UnionSenateMap[query].Y);
-                circleContext.arc(x, y, 15, 0, Math.PI*2, true);
-                circleContext.closePath();
-                circleContext.fill();
+              //  console.log(query);
+               // console.log(UnionSenateMap);
+                if(UnionSenateMap[query]){
+                    let circleContext = editedImg.getContext('2d');
+                    circleContext.fillStyle = '#' + colors[i];
+                    circleContext.beginPath();
+                    let x = parseInt(UnionSenateMap[query].x);
+                    let y = parseInt(UnionSenateMap[query].y);
+                    circleContext.arc(x, y, 15, 0, Math.PI*2, true);
+                    circleContext.closePath();
+                    circleContext.fill();
+                }else{
+//                    console.log('Senate query DNE');
+//                    console.log(queries);
+                }
             }
         }
         var outpath = "./tmp/" + uuidv1() + ".png";
@@ -105,6 +125,7 @@ app.get('/api/senate', (req, res) => {
             res.sendFile(outpath, options);
         });
     });
+    console.log('Done');
 });
 
 app.listen(port, () => console.log('Listening on port: ' + port));

@@ -1,39 +1,39 @@
 [
     {
         "word": "red",
-        "hex": "#ff0000"
+        "hex": "ff0000"
     },
     {
         "word": "blue",
-        "hex": "#0000ff"
+        "hex": "0000ff"
     },
     {
         "word": "green",
-        "hex": "#008000"
+        "hex": "008000"
     },
     {
         "word": "lime",
-        "hex": "#00ff00"
+        "hex": "00ff00"
     },
     {
         "word": "yellow",
-        "hex": "#ffff00"
+        "hex": "ffff00"
     },
     {
         "word": "aqua",
-        "hex": "#00ffff"
+        "hex": "00ffff"
     },
     {
         "word": "orange",
-        "hex": "#ffa500"
+        "hex": "ffa500"
     },
     {
         "word": "purple",
-        "hex": "#800080"
+        "hex": "800080"
     },
     {
         "word": "fuchsia",
-        "hex": "#ff00ff"
+        "hex": "ff00ff"
     }
 ]
 

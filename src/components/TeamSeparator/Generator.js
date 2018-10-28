@@ -6,7 +6,6 @@ import Heading from 'react-bulma-components/lib/components/heading';
 import { BlobProvider, Document, Page, Text, Image, View, StyleSheet } from '@react-pdf/renderer';
 import hacklogo from '../../img/hackohiologo.png';
 import colorpallete from '../../colorpallete.json';
-import hexToRgba from 'hex-rgba';
 
 class Generator extends Component {
     constructor(props) {
@@ -103,6 +102,9 @@ class Generator extends Component {
                 margin: 'auto',
                 width: '80%',
             },
+            textBold: {
+                fontWeight: 'bold',
+            },
         });
 
         //Header mapping (can be implemented dynamically)
@@ -132,6 +134,7 @@ class Generator extends Component {
         this.state = {
             styles: styles,
             judgePairs: this.props.judgePairs,
+            sponsorChallenges: this.props.sponsorChallenges,
             infoHeader: infoHeader,
             headerMap: headerMap,
             loading: true,
@@ -143,26 +146,41 @@ class Generator extends Component {
     fetchImages = () => {
         let judgePairs = this.state.judgePairs;
         let promises = [];
+        let colorIndex = 0;
         for(let i=0; i<judgePairs.length; i++){
             let greathall = [];
             let ballroom = [];
             let senate = [];
             for(let j=0; j<judgePairs[i].teams.length; j++){
-                let color = colorpallete[j];
-                judgePairs[i].teams[j].color = color;
+                let color = colorpallete[colorIndex];
+                colorIndex++;
+                if(colorIndex >= colorpallete.length){
+                    colorIndex=0;
+                }
+                if(!judgePairs[i].teams[j].color){
+                    judgePairs[i].teams[j].color = color;
+                }else{
+                    color = judgePairs[i].teams[j].color;
+                }
                 let loc = judgePairs[i].teams[j][this.state.headerMap.team_loc];
                 let pos = judgePairs[i].teams[j][this.state.headerMap.team_pos];
+                //CSV numeric formatting causing issues for loc number...
+                if(pos.length === 1){
+                    pos = '00' + pos;
+                }else if(pos.length === 2){
+                    pos = '0' + pos;
+                }
                 switch(loc){
                     case 'Great Hall (1st floor)':
-                        greathall.push({ color: hexToRgba(color.hex, 100), pos: pos });
+                        greathall.push({ color: color.hex, pos: pos });
                         judgePairs[i].teams[j].loc_ltr = 'G';
                         break;
                     case 'Grand Ballroom (2nd floor)':
-                        ballroom.push({ color: hexToRgba(color.hex, 100), pos: pos });
+                        ballroom.push({ color: color.hex, pos: pos });
                         judgePairs[i].teams[j].loc_ltr = 'B';
                         break;
                     case 'Senate Chamber (2nd floor)':
-                        senate.push({ color: hexToRgba(color.hex, 100), pos: pos });
+                        senate.push({ color: color.hex, pos: pos });
                         judgePairs[i].teams[j].loc_ltr = 'S';
                         break;
                     default:
@@ -181,9 +199,9 @@ class Generator extends Component {
             senate.forEach((obj) => {
                 senateQuery += '&colors[]=' + obj.color + '&locs[]=' + obj.pos;
             });
-            console.log(greathallQuery);
-            console.log(ballroomQuery);
-            console.log(senateQuery);
+            console.log('Query: ' + greathallQuery);
+            console.log('Query: ' + ballroomQuery);
+            console.log('Query: ' + senateQuery);
 
             promises.push(this.getAllImages(greathallQuery, ballroomQuery, senateQuery)
                 .then(([gh, br, sn]) => {
@@ -198,6 +216,7 @@ class Generator extends Component {
                 judgePairs: judgePairs,
                 fetchingImages: false,
             });
+            console.log('DONE FETCHING!!! LOOK FOR THIS');
         });
     }
 
@@ -253,17 +272,18 @@ class Generator extends Component {
                                 margin: 20,
                             },
                         });
+
                         return (
-                            <View style={this.state.styles.teamRow}>
+                            <View style={this.state.styles.teamRow} key={index}>
                                 <View style={this.state.styles.teamColHead}>
                                     <Text style={this.state.styles.teamName}>{team[props.headerMap.team_name]}</Text>
-                                    <Text style={this.state.styles.teamInfo}>Members:{"\n"}{team[props.headerMap.member_names]}</Text>
+                                    <Text style={this.state.styles.teamInfo}><Text style={this.state.styles.textBold}>Members:{"\n"}</Text>{team[props.headerMap.member_names]}</Text>
                                 </View>
                                 <View style={this.state.styles.teamCol}>
-                                    <Text style={this.state.styles.teamInfo}>Project Name: {team[props.headerMap.proj_name]}</Text>
-                                    <Text style={this.state.styles.teamInfo}>Project Desc: {team[props.headerMap.proj_desc]}</Text>
-                                    <Text style={this.state.styles.teamInfo}>Location: {team[props.headerMap.team_loc]}</Text>
-                                    <Text style={this.state.styles.teamInfo}>Identifier: {team[props.headerMap.team_pos]}</Text>
+                                    <Text style={this.state.styles.teamInfo}><Text style={this.state.styles.textBold}>Project Name:</Text> {team[props.headerMap.proj_name]}</Text>
+                                    <Text style={this.state.styles.teamInfo}><Text style={this.state.styles.textBold}>Project Desc:</Text> {team[props.headerMap.proj_desc]}</Text>
+                                    <Text style={this.state.styles.teamInfo}><Text style={this.state.styles.textBold}>Location:</Text> {team[props.headerMap.team_loc]}</Text>
+                                    <Text style={this.state.styles.teamInfo}><Text style={this.state.styles.textBold}>Identifier:</Text> {team[props.headerMap.team_pos]}</Text>
                                 </View>
                                 <View style={this.state.styles.teamCol}>
                                     <Text style={this.state.styles.teamInfo}>Emails:{"\n"}{team[props.headerMap.member_emails]}</Text>
@@ -293,10 +313,53 @@ class Generator extends Component {
             </Page>
         );
 
+        const SponsorChallenge = (props) => (
+            <Page size="A4" style={this.state.styles.page}>
+                <View style={this.state.styles.header}>
+                    <View style={this.state.styles.headerColumn}>
+                    <Image
+                        style={this.state.styles.logo}
+                        src={hacklogo}
+                    />
+                    </View>
+                    <View style={this.state.styles.headerTitleColumn}>
+                        <Text style={this.state.styles.headerText}>Sponsor Challenge {props.sponsorChallenge.name}   HackOhio {(new Date().getFullYear())}</Text> 
+                    </View>
+                </View>
+                <View style={this.state.styles.teamContainer}>
+                    {props.teams.map(function(team, index){
+                        return (
+                            <View style={this.state.styles.teamRow} key={index}>
+                                <View style={this.state.styles.teamColHead}>
+                                    <Text style={this.state.styles.teamName}>{team[props.headerMap.team_name]}</Text>
+                                    <Text style={this.state.styles.teamInfo}>Members:{"\n"}{team[props.headerMap.member_names]}</Text>
+                                </View>
+                                <View style={this.state.styles.teamCol}>
+                                    <Text style={this.state.styles.teamInfo}>Project Name: {team[props.headerMap.proj_name]}</Text>
+                                    <Text style={this.state.styles.teamInfo}>Project Desc: {team[props.headerMap.proj_desc]}</Text>
+                                    <Text style={this.state.styles.teamInfo}>Location: {team[props.headerMap.team_loc]}</Text>
+                                    <Text style={this.state.styles.teamInfo}>Identifier: {team[props.headerMap.team_pos]}</Text>
+                                </View>
+                                <View style={this.state.styles.teamCol}>
+                                    <Text style={this.state.styles.teamInfo}>Emails:{"\n"}{team[props.headerMap.member_emails]}</Text>
+                                </View>
+                {this.state.sponsorChallenges.map(function(sponsorChallenge, index){
+                    return <SponsorChallenge sponsorChallenge={sponsorChallenge} teams={sponsorChallenge.teams} headerMap={this.state.headerMap} key={index} />
+                }.bind(this))}
+                            </View>
+                        );
+                    }.bind(this))}
+                </View>
+            </Page>
+        );
+
         const GeneratedPDFs = (
             <Document>
                 {this.state.judgePairs.map(function(judgePair, index){
-                    return <JudgePage judgePair={judgePair} teams={judgePair.teams} headerMap={this.state.headerMap} />
+                    return <JudgePage judgePair={judgePair} teams={judgePair.teams} headerMap={this.state.headerMap} key={index} />
+                }.bind(this))}
+                {this.state.sponsorChallenges.map(function(sponsorChallenge, index){
+                    return <SponsorChallenge sponsorChallenge={sponsorChallenge} teams={sponsorChallenge.teams} headerMap={this.state.headerMap} key={index} />
                 }.bind(this))}
             </Document>
         );

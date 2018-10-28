@@ -50,6 +50,54 @@ class Separator extends Component {
         const maxPerJudge = Math.ceil(judgingEvents/this.state.numJudges);
         let teamWrappers = [];
         let judgePairs = [];
+        /*
+        let sponsorChallenges = {
+            "AEP": {
+                teams: [],
+            },
+            "AgTech": {
+                teams: [],
+            },
+            "ENGIE": {
+                teams: [],
+            },
+            "Honda": {
+                teams: [],
+            },
+            "JPMC": {
+                teams: [],
+            },
+            "Microsoft": {
+                teams: [],
+            },
+        };
+        */
+        let sponsorChallenges = [
+            {
+                name: 'AEP',
+                teams: [],
+            },
+            {
+                name: 'AgTech',
+                teams: [],
+            },
+            {
+                name: 'ENGIE',
+                teams: [],
+            },
+            {
+                name: 'Honda',
+                teams: [],
+            },
+            {
+                name: 'JPMC',
+                teams: [],
+            },
+            {
+                name: 'Microsoft',
+                teams: [],
+            },
+        ];
         let teamID = 0;
         this.state.teams.forEach((team) => {
             team.teamID = teamID;
@@ -57,6 +105,28 @@ class Separator extends Component {
                 "timeUsed": null,
                 "team": team,
             };
+            switch(team["Q21"]){
+                case "AEP":
+                    sponsorChallenges[0].teams.push(team);
+                    break;
+                case "AgTech":
+                    sponsorChallenges[1].teams.push(team);
+                    break;
+                case "ENGIE":
+                    sponsorChallenges[2].teams.push(team);
+                    break;
+                case "Honda":
+                    sponsorChallenges[3].teams.push(team);
+                    break;
+                case "JP Morgan & Chase":
+                    sponsorChallenges[4].teams.push(team);
+                    break;
+                case "Microsoft":
+                    sponsorChallenges[5].teams.push(team);
+                    break;
+                default:
+                    break;
+            }
             teamWrappers.unshift(newWrapper);
             teamID++;
         });
@@ -68,57 +138,44 @@ class Separator extends Component {
             judgePairs.push(newJudgePair);
         }
         let currJudgePair = 0;
-        console.log('starting loop');
         while(teamWrappers.length > 0){
             //Adjust/reset judgePair index
             if(currJudgePair >= judgePairs.length){
                 currJudgePair = 0;
-                console.log('setting zero');
-                
             }
             if(judgePairs[currJudgePair].teams.length >= maxPerJudge){
                 currJudgePair++;
-                console.log('inc');
                 continue;
             }
             let currTeamWrapper = teamWrappers.pop();
-            console.log("Team " + currTeamWrapper.team.teamID);
-            console.log("timeUsed: " + currTeamWrapper.timeUsed);
-            console.log("currJudge: " + currJudgePair);
             //Already has team
             if(judgePairs[currJudgePair].teams.filter(
                 function(e) {
                     return e.teamID === currTeamWrapper.team.teamID;
                 }).length > 0)
             {
-                console.log('Already in: ' + currTeamWrapper.team.teamID + ":" + currJudgePair);
                 teamWrappers.push(currTeamWrapper);
                 currJudgePair++;
                 continue;
             }else if(currTeamWrapper.timeUsed && (judgePairs[currJudgePair].teams.length+1) !== currTeamWrapper.timeUsed) {
                 //Add team to judgePair
                 judgePairs[currJudgePair].teams.push(currTeamWrapper.team);
-                console.log('Scheduled ' + currTeamWrapper.team.teamID + ' to ' + currJudgePair);
             }else if(currTeamWrapper.timeUsed){
                 //Conflict... Do not schedule and re-enqueue
-                console.log('conflict: ' + currTeamWrapper.team.teamID + ":" + currJudgePair);
                 teamWrappers.unshift(currTeamWrapper);
                 continue;
             }else{
                 //Add team's first time
-                console.log('Scheduled first time ' + currTeamWrapper.team.teamID + ' to ' + currJudgePair);
                 judgePairs[currJudgePair].teams.push(currTeamWrapper.team);
                 currTeamWrapper.timeUsed = judgePairs[currJudgePair].teams.length;
                 teamWrappers.unshift(currTeamWrapper);
             }
             currJudgePair++;
-            console.log('inc2');
         }
-        console.log('ended loop');
         this.setState({
             judgePairs: judgePairs,
+            sponsorChallenges: sponsorChallenges,
         });
-        console.log(judgePairs);
     }
 
     render() {
@@ -136,7 +193,7 @@ class Separator extends Component {
             //Start Generation
             return(
                 <div>
-                    <Generator judgePairs={this.state.judgePairs} />
+                    <Generator judgePairs={this.state.judgePairs} sponsorChallenges={this.state.sponsorChallenges} />
                 </div>
             );
         }
