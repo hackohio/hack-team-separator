@@ -102,23 +102,8 @@ class Generator extends Component {
                 margin: 'auto',
                 width: '80%',
             },
-            textBold: {
-                fontWeight: 'bold',
-            },
         });
 
-        //Header mapping (can be implemented dynamically)
-        /*const headerMap = {
-            "team_name": "Team Name",
-            "member_names": "Member Names",
-            "member_emails": "Member Emails",
-            "proj_name": "Project Goal",
-            "proj_desc": "Functionality",
-            "team_loc": "Location",
-        };*/
-        
-
-        //Real HEADERMAP
         const headerMap = {
             "team_name": "Q3",
             "member_names": "Q4",
@@ -131,6 +116,7 @@ class Generator extends Component {
         
         const infoHeader = "Separated and generated for " + this.props.judgePairs.length + " judge-pairs:";
 
+
         this.state = {
             styles: styles,
             judgePairs: this.props.judgePairs,
@@ -140,6 +126,8 @@ class Generator extends Component {
             loading: true,
             fetchingImages: true,
         };
+        console.log(this.props.sponsorChallenges);
+        console.log(this.props.judgePairs);
         this.fetchImages();
     }
 
@@ -211,12 +199,16 @@ class Generator extends Component {
                 })
             );
         }
+        console.log('Starting promises');
         Promise.all(promises).then((vals) => {
             this.setState({
                 judgePairs: judgePairs,
                 fetchingImages: false,
             });
             console.log('DONE FETCHING!!! LOOK FOR THIS');
+        }).catch((reason) => {
+            console.log('Uhh catch?');
+            console.log(reason);
         });
     }
 
@@ -272,18 +264,42 @@ class Generator extends Component {
                                 margin: 20,
                             },
                         });
+                        console.log('Mapping judge');
+                        console.log(team);
+                        
+                        if(!team[props.headerMap.team_name]){
+                            team[props.headerMap.team_name] = 'N/A';
+                        }
+                        if(!team[props.headerMap.member_names]){
+                            team[props.headerMap.member_names] = 'N/A';
+                        }
+                        if(!team[props.headerMap.proj_name]){
+                            team[props.headerMap.proj_name] = 'N/A';
+                        }
+                        if(!team[props.headerMap.proj_desc]){
+                            team[props.headerMap.proj_desc] = 'N/A';
+                        }
+                        if(!team[props.headerMap.team_loc]){
+                            team[props.headerMap.team_loc] = 'N/A';
+                        }
+                        if(!team[props.headerMap.team_pos]){
+                            team[props.headerMap.team_pos] = 'N/A';
+                        }
+                        if(!team[props.headerMap.member_emails]){
+                            team[props.headerMap.member_emails] = 'N/A';
+                        }
 
                         return (
                             <View style={this.state.styles.teamRow} key={index}>
                                 <View style={this.state.styles.teamColHead}>
                                     <Text style={this.state.styles.teamName}>{team[props.headerMap.team_name]}</Text>
-                                    <Text style={this.state.styles.teamInfo}><Text style={this.state.styles.textBold}>Members:{"\n"}</Text>{team[props.headerMap.member_names]}</Text>
+                                    <Text style={this.state.styles.teamInfo}>Members:{"\n"}{team[props.headerMap.member_names]}</Text>
                                 </View>
                                 <View style={this.state.styles.teamCol}>
-                                    <Text style={this.state.styles.teamInfo}><Text style={this.state.styles.textBold}>Project Name:</Text> {team[props.headerMap.proj_name]}</Text>
-                                    <Text style={this.state.styles.teamInfo}><Text style={this.state.styles.textBold}>Project Desc:</Text> {team[props.headerMap.proj_desc]}</Text>
-                                    <Text style={this.state.styles.teamInfo}><Text style={this.state.styles.textBold}>Location:</Text> {team[props.headerMap.team_loc]}</Text>
-                                    <Text style={this.state.styles.teamInfo}><Text style={this.state.styles.textBold}>Identifier:</Text> {team[props.headerMap.team_pos]}</Text>
+                                    <Text style={this.state.styles.teamInfo}>Project Name: {team[props.headerMap.proj_name]}</Text>
+                                    <Text style={this.state.styles.teamInfo}>Project Desc: {team[props.headerMap.proj_desc]}</Text>
+                                    <Text style={this.state.styles.teamInfo}>Location: {team[props.headerMap.team_loc]}</Text>
+                                    <Text style={this.state.styles.teamInfo}>Identifier: {team[props.headerMap.team_pos]}</Text>
                                 </View>
                                 <View style={this.state.styles.teamCol}>
                                     <Text style={this.state.styles.teamInfo}>Emails:{"\n"}{team[props.headerMap.member_emails]}</Text>
@@ -328,6 +344,30 @@ class Generator extends Component {
                 </View>
                 <View style={this.state.styles.teamContainer}>
                     {props.teams.map(function(team, index){
+                        console.log('Mapping sponsor ');
+                        console.log(team);
+                        if(!team[props.headerMap.team_name]){
+                            team[props.headerMap.team_name] = 'N/A';
+                        }
+                        if(!team[props.headerMap.member_names]){
+                            team[props.headerMap.member_names] = 'N/A';
+                        }
+                        if(!team[props.headerMap.proj_name]){
+                            team[props.headerMap.proj_name] = 'N/A';
+                        }
+                        if(!team[props.headerMap.proj_desc]){
+                            team[props.headerMap.proj_desc] = 'N/A';
+                        }
+                        if(!team[props.headerMap.team_loc]){
+                            team[props.headerMap.team_loc] = 'N/A';
+                        }
+                        if(!team[props.headerMap.team_pos]){
+                            team[props.headerMap.team_pos] = 'N/A';
+                        }
+                        if(!team[props.headerMap.member_emails]){
+                            team[props.headerMap.member_emails] = 'N/A';
+                        }
+                        try{
                         return (
                             <View style={this.state.styles.teamRow} key={index}>
                                 <View style={this.state.styles.teamColHead}>
@@ -343,11 +383,12 @@ class Generator extends Component {
                                 <View style={this.state.styles.teamCol}>
                                     <Text style={this.state.styles.teamInfo}>Emails:{"\n"}{team[props.headerMap.member_emails]}</Text>
                                 </View>
-                {this.state.sponsorChallenges.map(function(sponsorChallenge, index){
-                    return <SponsorChallenge sponsorChallenge={sponsorChallenge} teams={sponsorChallenge.teams} headerMap={this.state.headerMap} key={index} />
-                }.bind(this))}
                             </View>
                         );
+                        }catch{
+                            console.log('failed');
+                            return <View></View>
+                        }
                     }.bind(this))}
                 </View>
             </Page>
@@ -359,6 +400,7 @@ class Generator extends Component {
                     return <JudgePage judgePair={judgePair} teams={judgePair.teams} headerMap={this.state.headerMap} key={index} />
                 }.bind(this))}
                 {this.state.sponsorChallenges.map(function(sponsorChallenge, index){
+                    console.log('Starting sponsor challenges');
                     return <SponsorChallenge sponsorChallenge={sponsorChallenge} teams={sponsorChallenge.teams} headerMap={this.state.headerMap} key={index} />
                 }.bind(this))}
             </Document>

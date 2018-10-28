@@ -42,9 +42,9 @@ app.get('/api/ballroom', (req, res) => {
         }
         PImage.encodePNGToStream(editedImg, fs.createWriteStream(outpath)).then(() => {
             res.sendFile(outpath, options);
+            console.log('Done');
         });
     });
-    console.log('Done');
 });
 
 app.get('/api/greathall', (req, res) => {
@@ -81,9 +81,9 @@ app.get('/api/greathall', (req, res) => {
         }
         PImage.encodePNGToStream(editedImg, fs.createWriteStream(outpath)).then(() => {
             res.sendFile(outpath, options);
+            console.log('Done');
         });
     });
-    console.log('Done');
 });
 
 app.get('/api/senate', (req, res) => {
@@ -123,9 +123,9 @@ app.get('/api/senate', (req, res) => {
         }
         PImage.encodePNGToStream(editedImg, fs.createWriteStream(outpath)).then(() => {
             res.sendFile(outpath, options);
+            console.log('Done');
         });
     });
-    console.log('Done');
 });
 
 app.listen(port, () => console.log('Listening on port: ' + port));

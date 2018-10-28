@@ -107,22 +107,22 @@ class Separator extends Component {
             };
             switch(team["Q21"]){
                 case "AEP":
-                    sponsorChallenges[0].teams.push(team);
+                    sponsorChallenges[0].teams.push(newWrapper.team);
                     break;
                 case "AgTech":
-                    sponsorChallenges[1].teams.push(team);
+                    sponsorChallenges[1].teams.push(newWrapper.team);
                     break;
                 case "ENGIE":
-                    sponsorChallenges[2].teams.push(team);
+                    sponsorChallenges[2].teams.push(newWrapper.team);
                     break;
                 case "Honda":
-                    sponsorChallenges[3].teams.push(team);
+                    sponsorChallenges[3].teams.push(newWrapper.team);
                     break;
                 case "JP Morgan & Chase":
-                    sponsorChallenges[4].teams.push(team);
+                    sponsorChallenges[4].teams.push(newWrapper.team);
                     break;
                 case "Microsoft":
-                    sponsorChallenges[5].teams.push(team);
+                    sponsorChallenges[5].teams.push(newWrapper.team);
                     break;
                 default:
                     break;
@@ -130,6 +130,7 @@ class Separator extends Component {
             teamWrappers.unshift(newWrapper);
             teamID++;
         });
+        console.log(sponsorChallenges);
         for(let i=1; i<=this.state.numJudges; i++){
             let newJudgePair = {
                 "id": i,
