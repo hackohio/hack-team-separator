@@ -50,54 +50,6 @@ class Separator extends Component {
         const maxPerJudge = Math.ceil(judgingEvents/this.state.numJudges);
         let teamWrappers = [];
         let judgePairs = [];
-        /*
-        let sponsorChallenges = {
-            "AEP": {
-                teams: [],
-            },
-            "AgTech": {
-                teams: [],
-            },
-            "ENGIE": {
-                teams: [],
-            },
-            "Honda": {
-                teams: [],
-            },
-            "JPMC": {
-                teams: [],
-            },
-            "Microsoft": {
-                teams: [],
-            },
-        };
-        */
-        let sponsorChallenges = [
-            {
-                name: 'AEP',
-                teams: [],
-            },
-            {
-                name: 'AgTech',
-                teams: [],
-            },
-            {
-                name: 'ENGIE',
-                teams: [],
-            },
-            {
-                name: 'Honda',
-                teams: [],
-            },
-            {
-                name: 'JPMC',
-                teams: [],
-            },
-            {
-                name: 'Microsoft',
-                teams: [],
-            },
-        ];
         let teamID = 0;
         this.state.teams.forEach((team) => {
             team.teamID = teamID;
@@ -105,32 +57,9 @@ class Separator extends Component {
                 "timeUsed": null,
                 "team": team,
             };
-            switch(team["Q21"]){
-                case "AEP":
-                    sponsorChallenges[0].teams.push(newWrapper.team);
-                    break;
-                case "AgTech":
-                    sponsorChallenges[1].teams.push(newWrapper.team);
-                    break;
-                case "ENGIE":
-                    sponsorChallenges[2].teams.push(newWrapper.team);
-                    break;
-                case "Honda":
-                    sponsorChallenges[3].teams.push(newWrapper.team);
-                    break;
-                case "JP Morgan & Chase":
-                    sponsorChallenges[4].teams.push(newWrapper.team);
-                    break;
-                case "Microsoft":
-                    sponsorChallenges[5].teams.push(newWrapper.team);
-                    break;
-                default:
-                    break;
-            }
             teamWrappers.unshift(newWrapper);
             teamID++;
         });
-        console.log(sponsorChallenges);
         for(let i=1; i<=this.state.numJudges; i++){
             let newJudgePair = {
                 "id": i,
@@ -175,7 +104,6 @@ class Separator extends Component {
         }
         this.setState({
             judgePairs: judgePairs,
-            sponsorChallenges: sponsorChallenges,
         });
     }
 
@@ -194,7 +122,7 @@ class Separator extends Component {
             //Start Generation
             return(
                 <div>
-                    <Generator judgePairs={this.state.judgePairs} sponsorChallenges={this.state.sponsorChallenges} />
+                    <Generator judgePairs={this.state.judgePairs} />
                 </div>
             );
         }
