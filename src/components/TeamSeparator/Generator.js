@@ -4,7 +4,7 @@ import { Field, Control } from 'react-bulma-components/lib/components/form';
 import Button from 'react-bulma-components/lib/components/button';
 import Heading from 'react-bulma-components/lib/components/heading';
 import { BlobProvider, Document, Page, Text, Image, View, StyleSheet } from '@react-pdf/renderer';
-import hacklogo from '../../img/hackohiologo.png';
+import makelogo from '../../img/makelogo.png';
 
 class Generator extends Component {
     constructor(props) {
@@ -106,7 +106,7 @@ class Generator extends Component {
             },
         });
 
-        const headerMap = {
+        let headerMap = {
             "team_name": "Q3",
             "team_number": "Q16",
             "member_1": "Q4",
@@ -145,7 +145,7 @@ class Generator extends Component {
                     <View style={this.state.styles.headerColumn}>
                     <Image
                         style={this.state.styles.logo}
-                        src={hacklogo}
+                        src={makelogo}
                     />
                     </View>
                     <View style={this.state.styles.headerTitleColumn}>
@@ -168,10 +168,15 @@ class Generator extends Component {
                         });
                         console.log('Mapping judge');
                         console.log(team);
-                        props.headerMap.forEach((column) => {
-                            if(!team[column])
-                                team[column] = 'N/A';
+                        Object.keys(props.headerMap).forEach((key) => {
+                            let header = props.headerMap[key];
+                            if(!team[header])
+                                team[header] = 'N/A';
                         });
+                        // props.headerMap.forEach((column) => {
+                            // if(!team[column])
+                                // team[column] = 'N/A';
+                        // });
                         return (
                             <View style={this.state.styles.teamRow} key={index}>
                                 <View style={this.state.styles.teamColHead}>
